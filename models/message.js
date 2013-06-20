@@ -15,9 +15,14 @@ Message.plugin(Timestamps, {created: "created_at", lastUpdated: "updated_at"});
 
 Message.statics = {
     list : function(options, callback) {
-        var query = {device_id:options.device_id, disabled:false};
+        var query = {};
+        if(options.device_id != null)
+            query.device_id = options.device_id;
         if(options.is_readed != null)
             query.is_readed = options.is_readed
+        if(options.disabled != null)
+            query.disabled = options.disabled;
+        console.log('Get Messages Query: %j', query);
         this.find(query)
             .populate('creator', 'worker_id')
             .populate('updator', 'worker_id')

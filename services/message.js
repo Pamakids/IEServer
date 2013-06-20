@@ -21,6 +21,7 @@ internals.listMine = function(req){
         req.reply({status: false, results: '没有获取到应用ID'});
         return;
     }
+    query.disabled = false;
     Message.list(query, function(err, result){
         if(err){
             req.reply({status: false, results: err.code});
@@ -41,7 +42,7 @@ internals.listMine = function(req){
 internals.add = function(req){
     var o = req.payload;
     delete o['id'];
-    console.log(o);
+    console.log('To Add Message: %j', o);
     var message = new Message(o);
     var creator = req.pre.admin;
     if(creator)

@@ -12,4 +12,14 @@ var DataFile = new Schema({
 var Timestamps = require('mongoose-times');
 DataFile.plugin(Timestamps, {created: "created_at", lastUpdated: "updated_at"});
 
+DataFile.statics = {
+    list: function(options,callback){
+        var query = options.query;
+        this.find(query)
+            .limit(options.perPage)
+            .skip(options.perPage * (options.page - 1))
+            .exec(callback);
+    }
+}
+
 module.exports = Mongoose.model('DataFile', DataFile);

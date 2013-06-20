@@ -3,11 +3,11 @@ var S = Hapi.types.String;
 var I = Hapi.types.Number;
 var A = Hapi.types.Array;
 var Redis = require('../services/redis');
-var Reasons = require('./reasons');
 var Admin = require('../services/admin');
 var User = require('../services/user');
 var Uploader = require('../services/uploader');
 var Message = require('../services/message');
+var DataFileModel = require('../models/data_file');
 
 var config    = require('./config');
 
@@ -173,6 +173,22 @@ internals.deleteMessage = {
     handler: Message.delete
 }
 
+internals.getDatas = {
+    pre: [
+        {method: preAuthAdmin, assign: 'admin'}
+    ],
+    handler: function(req){
+        DataFileModel.list(req.payload, function (err, result) {
+           if(err){
+               req.reply({status: false, results: err.code});
+           }else{
+               req.reply({status: true, results: result});
+               console.log('Got DataFiles: %j', result);
+           }
+        });
+    }
+}
+
 internals.endpoints = [
     {method: 'GET', path: '/admin/users', config: internals.getAdminUsers},
     {method: 'POST', path: '/admin/signUp', config: internals.signUpAdmin},
@@ -188,7 +204,8 @@ internals.endpoints = [
     {method: 'GET', path:'/message/all', config:internals.getMessages},
     {method: 'GET', path:'/message/mine', config:internals.getMyMessages},
     {method: 'POST', path:'/message/add', config:internals.addMessage},
-    {method: 'POST', path:'/message/delete', config:internals.deleteMessage}
+    {method: 'POST', path:'/message/delete', config:internals.deleteMessage},
+    {method: 'POST', path:'/datas/clickedPointsData', config:internals.getDatas}
 ];
 
 module.exports = internals.endpoints;

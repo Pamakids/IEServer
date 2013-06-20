@@ -28,6 +28,11 @@ bcrypt.compare('$2a$10$jnEn3EyRNwXDd4qzOkhjWuHToypZaK4HU7BFNbDaaxXQxk1J2lYzS;', 
 //});
 
 
+var date = new Date('2013-7-7');
+console.log(date);
+date = new Date(2013, 7, 7);
+console.log(date);
+return;
 //
 //
 var client = require('redis').createClient(null, null, {max_attempts: 8});
