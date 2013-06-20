@@ -15,7 +15,7 @@ Message.plugin(Timestamps, {created: "created_at", lastUpdated: "updated_at"});
 
 Message.statics = {
     list : function(options, callback) {
-        var query = {device_id:options.device_id};
+        var query = {device_id:options.device_id, disabled:false};
         if(options.is_readed != null)
             query.is_readed = options.is_readed
         this.find(query)

@@ -63,7 +63,7 @@ internals.delete = function(req){
         if(err){
             req.reply({status:false, results:err.code});
         }else if(result){
-            result.enabled = false;
+            result.disabled = true;
             if(admin)
                 result.updator = new Admin(admin);
             result.save(function(err, result){

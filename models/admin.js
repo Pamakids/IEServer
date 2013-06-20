@@ -17,7 +17,6 @@ var Admin = new Schema({
 	birthday:Date,
 	portrait:String, //头像
 	true_name:String,
-    native_place:String,
 	creator:{type:Schema.ObjectId, ref:'Admin'},
 	updator:{type:Schema.ObjectId, ref:'Admin'},
 	login_attempts:{type:Number, default:0},
