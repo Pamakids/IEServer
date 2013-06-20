@@ -10,6 +10,6 @@ var DataFile = new Schema({
 });
 
 var Timestamps = require('mongoose-times');
-UFile.plugin(Timestamps, {created: "created_at", lastUpdated: "updated_at"});
+DataFile.plugin(Timestamps, {created: "created_at", lastUpdated: "updated_at"});
 
 module.exports = Mongoose.model('DataFile', DataFile);
