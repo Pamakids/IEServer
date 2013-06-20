@@ -26,6 +26,13 @@ internals.listMine = function(req){
             req.reply({status: false, results: err.code});
         }else{
             req.reply({status: true, results: result});
+            result.forEach(function (item) {
+                if(!item.is_readed)
+                {
+                    item.is_readed = true;
+                    item.save();
+                }
+            });
             console.log('Got Messages: %j', result);
         }
     })
