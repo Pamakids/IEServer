@@ -183,8 +183,16 @@ internals.getDatas = {
                req.reply({status: false, results: err.code});
            }else{
                req.reply({status: true, results: result});
-               console.log('Got DataFiles: %j', result);
+               console.log('Got DataFiles: %j', result.length);
            }
+        });
+    }
+}
+
+internals.checkLottery = {
+    handler: function(req){
+        Redis.checkLottery(req.query.code, function (result) {
+            req.reply(result);
         });
     }
 }
@@ -205,7 +213,8 @@ internals.endpoints = [
     {method: 'GET', path:'/message/mine', config:internals.getMyMessages},
     {method: 'POST', path:'/message/add', config:internals.addMessage},
     {method: 'POST', path:'/message/delete', config:internals.deleteMessage},
-    {method: 'POST', path:'/datas/clickedPointsData', config:internals.getDatas}
+    {method: 'POST', path:'/datas/clickedPointsData', config:internals.getDatas},
+    {method: 'GET', path:'/check/lottery', config:internals.checkLottery}
 ];
 
 module.exports = internals.endpoints;

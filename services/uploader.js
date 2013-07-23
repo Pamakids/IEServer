@@ -60,7 +60,7 @@ module.exports.upload = function (req) {
                 var uf = new UFile({uploader:fields.id, type:type, size:size, path:path});
                 uf.save();
             }else if(fields.device_id){
-                var df = new DataFile({device_id: fields.device_id, size: size, path: path});
+                var df = new DataFile({device_id: fields.device_id, size: size, path: relativePath});
                 df.save();
             }
         }

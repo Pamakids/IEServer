@@ -9,7 +9,7 @@ internals.list = function(req){
             req.reply({status: false, results: err.code});
         }else{
             req.reply({status: true, results: result});
-            console.log('Got Messages: %j', result);
+            console.log('Got Messages:', result.length);
         }
     })
 }

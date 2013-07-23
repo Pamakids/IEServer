@@ -28,11 +28,11 @@ bcrypt.compare('$2a$10$jnEn3EyRNwXDd4qzOkhjWuHToypZaK4HU7BFNbDaaxXQxk1J2lYzS;', 
 //});
 
 
-var date = new Date('2013-7-7');
-console.log(date);
-date = new Date(2013, 7, 7);
-console.log(date);
-return;
+//var date = new Date('2013-7-7');
+//console.log(date);
+//date = new Date(2013, 7, 7);
+//console.log(date);
+//return;
 //
 //
 var client = require('redis').createClient(null, null, {max_attempts: 8});
@@ -66,24 +66,26 @@ setTimeout(function () {
 //    var admin = new Admin();
 //    admin.findByIdAndUpdate();
 //    console.log(typeof admin);
-    var admin = new Admin({worker_id:8, password:'888888', mobile_phone_num:13888888888, privilege:'admin'});
-    admin.save(function (err, result) {
-        console.log(err, result);
-    });
+
+//    var admin = new Admin({worker_id:8, password:'888888', mobile_phone_num:13888888888, privilege:'admin'});
+//    admin.save(function (err, result) {
+//        console.log(err, result);
+//    });
 
 //    var m = new Message({device_id:'test'});
 //    m.save(function(err, result){
 //        console.log(err, result);
 //    })
 
-//    Message.list({query:{device_id:'test2'}}, function(err, result){
-//        if(err){
-////            req.reply({status: false, results: err.code});
-//        }else{
-////            req.reply({status: true, results: result});
-//            console.log('Got Messages: %j', result);
-//        }
-//    })
+    Message.list({query:{device_id:'test2'}}, function(err, result){
+        if(err){
+//            req.reply({status: false, results: err.code});
+        }else{
+//            req.reply({status: true, results: result});
+
+        }
+        console.log('Got Messages: %j', result);
+    })
 
 //    var admin = new Admin({"id_card_num":"111","worker_id":11,"privilege":"admin","mobile_phone_num":"11111111","password":"111111","login_attempts":0,"updated_at":"2013-06-06T19:06:36.105Z","created_at":"2013-06-06T19:06:36.105Z","enabled":true});
 //    admin.save(function(err, result){

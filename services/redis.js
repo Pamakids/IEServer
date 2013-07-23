@@ -16,6 +16,19 @@ internals.init = function init() {
 
 internals.init();
 
+module.exports.checkLottery = function(code, next){
+    var client = internals.client;
+    client.get(code, function (err, result) {
+        if(err){
+            next({status:false, results: '服务器维护中，请稍后再试'});
+        }else if(result){
+            next({status:true});
+        }else{
+            next({status:false, results: '该编码未中奖，请检查是否输入正确，如有问题请及时联系我们：Email:hi@pamakids.com'});
+        }
+    });
+}
+
 module.exports.setUser = function(user, next) {
 	var client = internals.client;
 	client.setex(user.id, internals.EXPIRE_TIME, JSON.stringify(user), function(err, res) {
