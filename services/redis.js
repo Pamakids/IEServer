@@ -34,6 +34,20 @@ module.exports.checkLottery = function(code, next){
     });
 }
 
+module.exports.checkStatus = function(code, next){
+    var client = internals.client;
+    client.get(code, function (err, result) {
+        if(err){
+            next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+        }else if(result != null){
+            console.log(code);
+                next({status:true, results: result});
+        }else{
+            next({status:false, results: '该兑换码不存在，请检查是否输入正确，如有问题请联系 @斑马骑士 官方微博或 Email:pipilu@pamakids.com'});
+        }
+    });
+}
+
 module.exports.refreshCode = function(code, next){
     var client = internals.client;
     client.get(code, function (err, result) {

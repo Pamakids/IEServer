@@ -230,6 +230,14 @@ internals.codeRefresh = {
     }
 }
 
+internals.codeCheck = {
+    handler:function(req){
+        Redis.checkStatus(req.query.code, function (result) {
+            req.reply(result);
+        });
+    }
+}
+
 internals.endpoints = [
     {method: 'GET', path: '/admin/users', config: internals.getAdminUsers},
     {method: 'POST', path: '/admin/signUp', config: internals.signUpAdmin},
@@ -250,7 +258,8 @@ internals.endpoints = [
     {method: 'GET', path:'/check/lottery', config:internals.checkLottery},
     {method: 'GET', path:'/code/list', config:internals.codeList},
     {method: 'GET', path:'/code/add', config:internals.codeAdd},
-    {method: 'POST', path:'/code/refresh', config:internals.codeRefresh}
+    {method: 'POST', path:'/code/refresh', config:internals.codeRefresh},
+    {method: 'GET', path:'/code/check', config:internals.codeCheck}
 ];
 
 module.exports = internals.endpoints;
