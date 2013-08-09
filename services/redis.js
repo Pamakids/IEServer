@@ -20,18 +20,94 @@ module.exports.checkLottery = function(code, next){
     var client = internals.client;
     client.get(code, function (err, result) {
         if(err){
-            next({status:false, results: '服务器维护中，请稍后再试'});
+            next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
         }else if(result != null){
             client.set(code, 'used');
             console.log(code);
             if(result != 'used')
                 next({status:true});
             else
-                next({status:false, results: '该兑换码已使用，如有问题请联系我们：Email:pipilu@pamakids.com'});
+                next({status:false, results: '该兑换码已使用，如果您想同时在其它设备上使用，敬请联系 @斑马骑士 官方微博或 Email:pipilu@pamakids.com 进行申请'});
         }else{
-            next({status:false, results: '该兑换码未中奖，请检查是否输入正确，如有问题请及时联系我们：Email:pipilu@pamakids.com'});
+            next({status:false, results: '该兑换码不存在，请检查是否输入正确，如有问题请联系 @斑马骑士 官方微博或 Email:pipilu@pamakids.com'});
         }
     });
+}
+
+module.exports.refreshCode = function(code, next){
+    var client = internals.client;
+    client.get(code, function (err, result) {
+        if(err){
+            next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+        }else if(result != null){
+            client.set(code, 'used');
+            console.log(code);
+            if(result == 'used')
+            {
+                client.set(code, true, function(err, result){
+                    if(err){
+                        next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+                    }else{
+                        next({status:true, results: code});
+                    }
+                })
+            }
+            else
+            {
+                next({status:false, results: '该兑换码尚未使用，无需刷新'});
+            }
+        }else{
+            next({status:false, results: '该兑换码不存在，请检查是否输入正确，如有问题请联系 @斑马骑士 官方微博或 Email:pipilu@pamakids.com'});
+        }
+    });
+}
+
+module.exports.generateCode = function(next){
+    doGenerate(next);
+}
+
+function doGenerate(next){
+    var code = getRandmNum();
+    var client = internals.client;
+    client.get(code, function(err, result){
+        if(err){
+            next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+        }else if(result != null){
+            doGenerate(next);
+        }else{
+            client.set(code, true, function(err, result){
+                if(err)
+                    return next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+                next({status:true, results: code});
+            })
+        }
+    })
+}
+
+function getRandmNum() {
+    var mr = Math.random();
+    while(mr < 0.1)
+        mr = Math.random();
+    var randomNumber = mr * 999999 | 0;
+    var str = randomNumber.toString();
+    str = str.replace(/4/g, '8');
+    return Number(str);
+}
+
+module.exports.listCodes = function(next){
+    var client = internals.client;
+    client.dbsize(function(err, result){
+        if(err)
+            return next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+        return next({status:true, results: result});
+    })
+//    client.keys('*', function(err, keys){
+//        if(err)
+//            return next({status:false, results: '非常抱歉，服务器维护中，请稍后再试！'});
+//        client.mget(keys, function(err, res){
+//            return next({status:true, results: [keys, res]});
+//        })
+//    })
 }
 
 module.exports.setUser = function(user, next) {

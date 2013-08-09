@@ -19,6 +19,32 @@ bcrypt.compare('$2a$10$jnEn3EyRNwXDd4qzOkhjWuHToypZaK4HU7BFNbDaaxXQxk1J2lYzS;', 
     console.log(err, result);
 })
 
+getCode(function (result) {
+    console.log(num);
+});
+
+var num = 0;
+
+function getCode(next){
+    Redis.generateCode(function(result){
+        if(num == 1000000)
+            return next(result);
+        if(result.results > 99999 && result.results < 1000000)
+            getCode(next);
+        num ++;
+        console.log(num);
+    })
+}
+
+//Redis.listCodes(function(result){
+//    console.log(result);
+//})
+
+//Redis.isExsit('balance', function(result){
+//    console.log(result);
+//})
+return;
+
 //Redis.client.setex('test2', 60, 'test', function (err, reply) {
 //    console.log(reply);
 //});

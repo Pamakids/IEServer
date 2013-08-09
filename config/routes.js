@@ -197,6 +197,39 @@ internals.checkLottery = {
     }
 }
 
+internals.codeList = {
+    pre: [
+        {method: preAuthAdmin, assign: 'admin'}
+    ],
+    handler: function(req){
+        Redis.listCodes(function (result) {
+            req.reply(result);
+        });
+    }
+}
+
+internals.codeAdd = {
+    pre: [
+        {method: preAuthAdmin, assign: 'admin'}
+    ],
+    handler: function(req){
+        Redis.generateCode(function (result) {
+            req.reply(result);
+        });
+    }
+}
+
+internals.codeRefresh = {
+    pre: [
+        {method: preAuthAdmin, assign: 'admin'}
+    ],
+    handler:function(req){
+        Redis.refreshCode(req.payload.code, function (result) {
+            req.reply(result);
+        });
+    }
+}
+
 internals.endpoints = [
     {method: 'GET', path: '/admin/users', config: internals.getAdminUsers},
     {method: 'POST', path: '/admin/signUp', config: internals.signUpAdmin},
@@ -214,7 +247,10 @@ internals.endpoints = [
     {method: 'POST', path:'/message/add', config:internals.addMessage},
     {method: 'POST', path:'/message/delete', config:internals.deleteMessage},
     {method: 'POST', path:'/datas/clickedPointsData', config:internals.getDatas},
-    {method: 'GET', path:'/check/lottery', config:internals.checkLottery}
+    {method: 'GET', path:'/check/lottery', config:internals.checkLottery},
+    {method: 'GET', path:'/code/list', config:internals.codeList},
+    {method: 'GET', path:'/code/add', config:internals.codeAdd},
+    {method: 'POST', path:'/code/refresh', config:internals.codeRefresh}
 ];
 
 module.exports = internals.endpoints;
