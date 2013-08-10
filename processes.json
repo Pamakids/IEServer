@@ -1,0 +1,16 @@
+[
+	{
+		"name" : "files",
+		"script" : "../StaticFiles/files.js",
+		"instances" : "1",
+		"fileError" : "../logs/files-err.log",
+		"fileOutput" : "../logs/files-out.log"
+	},
+	{
+		"name" : "IEServer",
+		"script" : "server.js",
+		"instances" : "max",
+		"fileError" : "../logs/pama-err.log",
+		"fileOutput" : "../logs/pama-out.log"
+	}
+]
