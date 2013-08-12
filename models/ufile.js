@@ -2,7 +2,7 @@ var Mongoose = require('mongoose');
 var Schema = Mongoose.Schema;
 
 var UFile = new Schema({
-    uploader:{type:Schema.ObjectId, ref:'Admin', required:true, index:true},
+    uploader:{type:String, required:true, index:true},
     type:String,
     size:Number,
     path:String,
