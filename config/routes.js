@@ -8,6 +8,7 @@ var User = require('../services/user');
 var Uploader = require('../services/uploader');
 var Message = require('../services/message');
 var DataFileModel = require('../models/data_file');
+var UFile = require('../models/ufile');
 
 var config    = require('./config');
 
@@ -189,6 +190,22 @@ internals.getDatas = {
     }
 }
 
+internals.getUfiles = {
+//    pre: [
+//        {method: preAuthAdmin, assign: 'admin'}
+//    ],
+    handler: function(req){
+        UFile.list(req.query, function (err, result) {
+            if(err){
+                req.reply({status: false, results: err.message});
+            }else{
+                req.reply({status: true, results: result});
+                console.log('Got DataFiles: %j', result.length);
+            }
+        });
+    }
+}
+
 internals.checkLottery = {
     handler: function(req){
         Redis.checkLottery(req.query.code, function (result) {
@@ -259,7 +276,8 @@ internals.endpoints = [
     {method: 'GET', path:'/code/list', config:internals.codeList},
     {method: 'GET', path:'/code/add', config:internals.codeAdd},
     {method: 'POST', path:'/code/refresh', config:internals.codeRefresh},
-    {method: 'GET', path:'/code/check', config:internals.codeCheck}
+    {method: 'GET', path:'/code/check', config:internals.codeCheck},
+    {method: 'GET', path:'/ufiles', config:internals.getUfiles}
 ];
 
 module.exports = internals.endpoints;

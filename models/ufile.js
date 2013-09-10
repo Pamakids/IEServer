@@ -14,4 +14,14 @@ var UFile = new Schema({
 var Timestamps = require('mongoose-times');
 UFile.plugin(Timestamps, {created: "created_at", lastUpdated: "updated_at"});
 
+UFile.statics = {
+    list: function(options,callback){
+        var query = options ? options.query : null;
+        this.find(query)
+            .limit(options.perPage)
+            .skip(options.perPage * (options.page - 1))
+            .exec(callback);
+    }
+}
+
 module.exports = Mongoose.model('UFile', UFile);
