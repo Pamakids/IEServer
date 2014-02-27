@@ -9,6 +9,7 @@ var Uploader = require('../services/uploader');
 var Message = require('../services/message');
 var DataFileModel = require('../models/data_file');
 var UFile = require('../models/ufile');
+var UserTest = require('../services/user_test');
 
 var config    = require('./config');
 
@@ -255,6 +256,14 @@ internals.codeCheck = {
     }
 }
 
+internals.updateUT = {
+    handler:UserTest.update
+}
+
+internals.getUTConfig = {
+    handler:UserTest.getConfig
+}
+
 internals.endpoints = [
     {method: 'GET', path: '/admin/users', config: internals.getAdminUsers},
     {method: 'POST', path: '/admin/signUp', config: internals.signUpAdmin},
@@ -277,7 +286,9 @@ internals.endpoints = [
     {method: 'GET', path:'/code/add', config:internals.codeAdd},
     {method: 'POST', path:'/code/refresh', config:internals.codeRefresh},
     {method: 'GET', path:'/code/check', config:internals.codeCheck},
-    {method: 'GET', path:'/ufiles', config:internals.getUfiles}
+    {method: 'GET', path:'/ufiles', config:internals.getUfiles},
+    {method: 'GET', path:'/ut/update', config:internals.updateUT},
+    {method: 'GET', path:'/ut/get', config:internals.getUTConfig}
 ];
 
 module.exports = internals.endpoints;
