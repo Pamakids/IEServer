@@ -1,8 +1,6 @@
 var UserTest      = require('../models/user_test');
 
-var internals = {};
-
-internals.update = function(req){
+module.exports.update = function(req){
     var payload = req.query;
     UserTest.update({user:payload.u}, {config:payload.c}, {upsert:true}, function(err, result){
         if(err){
@@ -13,7 +11,7 @@ internals.update = function(req){
     });
 };
 
-internals.getConfig = function(req) {
+module.exports.getConfig = function(req) {
     console.log(req.query, req.pre.admin);
     var q = req.query;
     if(!q.u)
@@ -32,5 +30,3 @@ internals.getConfig = function(req) {
         }
     });
 };
-
-module.exports = internals;
