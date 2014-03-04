@@ -288,7 +288,8 @@ internals.endpoints = [
     {method: 'GET', path:'/code/check', config:internals.codeCheck},
     {method: 'GET', path:'/ufiles', config:internals.getUfiles},
     {method: 'GET', path:'/ut/update', config:internals.updateUT},
-    {method: 'GET', path:'/ut/get', config:internals.getUTConfig}
+    {method: 'GET', path:'/ut/get', config:internals.getUTConfig},
+    {method: 'GET', path:'/ut/all', handler:UserTest.getALL}
 ];
 
 module.exports = internals.endpoints;

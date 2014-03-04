@@ -11,6 +11,18 @@ module.exports.update = function(req){
     });
 };
 
+module.exports.getALL = function(req){
+    UserTest.find({}, function (err, result) {
+        if(err){
+            req.reply({status:false, result:err.code});
+        }else if(result){
+            req.reply({status:true, result: result});
+        }else{
+            req.reply({status:false, result:'没有用户存在'});
+        }
+    });
+}
+
 module.exports.getConfig = function(req) {
     console.log(req.query, req.pre.admin);
     var q = req.query;
